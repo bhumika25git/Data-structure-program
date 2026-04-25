@@ -1,0 +1,80 @@
+void reverse(struct Node** head) {
+    struct Node* prev = NULL;
+    struct Node* current = *head;
+    struct Node* next = NULL;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    *head = prev;
+}
+
+void sort(struct Node** head) {
+    if (*head == NULL || (*head)->next == NULL) return;
+    struct Node* temp = *head;
+    while (temp != NULL) {
+        struct Node* next = temp->next;
+        while (next != NULL) {
+            if (temp->data > next->data) {
+                int data = temp->data;
+                temp->data = next->data;
+                next->data = data;
+            }
+            next = next->next;
+        }
+        temp = temp->next;
+    }
+}
+
+int length(struct Node* head) {
+    int count = 0;
+    struct Node* temp = head;
+    while (temp != NULL) {
+        count++;
+        temp = temp->next;
+    }
+    return count;
+}
+
+int main() {
+    struct Node* head = NULL;
+
+    insertAtEnd(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+    traverse(head);
+
+    insertAtBeginning(&head, 5);
+    traverse(head);
+
+    insertAtPosition(&head, 25, 2);
+    traverse(head);
+
+    deleteFromBeginning(&head);
+    traverse(head);
+
+    deleteFromEnd(&head);
+    traverse(head);
+
+    deleteFromPosition(&head, 1);
+    traverse(head);
+
+    printf("List contains 20: %s\n", search(head, 20) ? "Yes" : "No");
+    printf("List contains 40: %s\n", search(head, 40) ? "Yes" : "No");
+
+    reverse(&head);
+    traverse(head);
+
+    insertAtEnd(&head, 15);
+    insertAtEnd(&head, 5);
+    traverse(head);
+
+    sort(&head);
+    traverse(head);
+
+    printf("Length of the list: %d\n", length(head));
+
+    return 0;
+}
